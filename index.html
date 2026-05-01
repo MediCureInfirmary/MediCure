@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MediCure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --green-dark: #1b5e20;
+  --green-mid: #2e7d32;
+  --green-light: #4caf50;
+  --green-pale: #e8f5e9;
+  --green-soft: #c8e6c9;
+  --accent: #a5d6a7;
+  --text: #1a2e1b;
+  --text-muted: #4a6b4c;
+  --bg: #f2f7f2;
+  --card-bg: #ffffff;
+  --border: #d4e8d4;
+  --shadow: 0 4px 24px rgba(27,94,32,0.08);
+  --shadow-hover: 0 12px 40px rgba(27,94,32,0.18);
+  --nav-bg: #ffffff;
+  --footer-bg: #1b5e20;
+  --input-bg: #ffffff;
+  --med-btn: #e8f5e9;
+  --med-btn-hover: #c8e6c9;
+  --detail-bg: #f4fbf4;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --transition: 0.35s cubic-bezier(.4,0,.2,1);
+}
+
+.dark {
+  --bg: #141c14;
+  --card-bg: #1e2a1e;
+  --text: #e8f5e9;
+  --text-muted: #a5c8a7;
+  --border: #2e4a2e;
+  --shadow: 0 4px 24px rgba(0,0,0,0.3);
+  --shadow-hover: 0 12px 40px rgba(0,0,0,0.45);
+  --nav-bg: #111a11;
+  --input-bg: #1e2a1e;
+  --med-btn: #2e4a2e;
+  --med-btn-hover: #3a5e3a;
+  --detail-bg: #1a2a1a;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background var(--transition), color var(--transition);
+  min-height: 100vh;
+}
+
+a { text-decoration: none; color: inherit; }
+
+header {
+  background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 55%, var(--green-light) 100%);
+  padding: 28px 24px 22px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.header-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo,.logo1,.logo2,.logo3,.logo4,.logo5,.logo6,.logo7,.logo8,.logo9,.logo10,.logo11,.logo12,.logo13,.logo14,.logo15{
+  width:400px;max-width:100%;height:auto;border-radius:30px;
+}
+
+.dark-btn {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 56px;
+  height: 30px;
+  border: none;
+  border-radius: 50px;
+  background: rgba(255,255,255,0.25);
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  padding: 3px;
+}
+
+.dark-btn .knob {
+  width: 24px;
+  height: 24px;
+  background: #fff;
+  border-radius: 50%;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+
+.dark .dark-btn .knob {
+  transform: translateX(26px);
+  background: #4caf50;
+}
+
+nav {
+  background: var(--nav-bg);
+  padding: 10px 16px;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  transition: background var(--transition);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid var(--border);
+}
+
+nav button {
+  margin: 4px;
+  padding: 9px 18px;
+  border: none;
+  border-radius: 50px;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: var(--transition);
+  letter-spacing: 0.3px;
+}
+
+nav button:hover,
+nav button.nav-active {
+  background: var(--green-dark);
+  color: #fff;
+}
+
+.section { display: none; padding: 36px 24px 20px; max-width: 1100px; margin: 0 auto; }
+.active { display: block; }
+
+.section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.9rem;
+  color: var(--green-dark);
+  margin-bottom: 6px;
+}
+
+.dark .section-title { color: var(--green-light); }
+
+.section-sub {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 28px;
+}
+
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
+}
+
+.card-icon {
+  width: 44px;
+  height: 44px;
+  background: var(--green-pale);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin-bottom: 14px;
+}
+
+.dark .card-icon { background: #2e4a2e; }
+
+.card h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.1rem;
+  color: var(--green-dark);
+  margin-bottom: 10px;
+}
+
+.dark .card h3 { color: var(--green-light); }
+
+.card p, .card li {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.card ul { padding-left: 18px; }
+.card ul li { margin-bottom: 6px; }
+
+.badge {
+  display: inline-block;
+  background: var(--green-pale);
+  color: var(--green-dark);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 50px;
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.dark .badge { background: #2e4a2e; color: #a5d6a7; }
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 14px 0;
+}
+
+.hours-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.hours-row:last-child { border-bottom: none; }
+.hours-row .day { font-weight: 600; color: var(--text); }
+.hours-open { color: #2e7d32; font-weight: 600; }
+.hours-closed { color: #c62828; font-weight: 600; }
+
+.search-box input {
+  width: 100%;
+  padding: 13px 18px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--input-bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+  transition: var(--transition);
+  outline: none;
+}
+
+.search-box input:focus { border-color: var(--green-light); box-shadow: 0 0 0 3px rgba(76,175,80,0.15); }
+
+.medicine-list { display: flex; flex-direction: column; gap: 6px; max-height: 380px; overflow-y: auto; padding-right: 4px; }
+
+.medicine-list::-webkit-scrollbar { width: 5px; }
+.medicine-list::-webkit-scrollbar-thumb { background: var(--green-soft); border-radius: 10px; }
+
+.medicine-list button {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--med-btn);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: var(--transition);
+}
+
+.medicine-list button:hover { background: var(--med-btn-hover); border-color: var(--green-light); }
+.medicine-list button.selected { background: var(--green-dark); color: #fff; border-color: var(--green-dark); }
+
+#medicineDetails {
+  background: var(--detail-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 18px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  min-height: 120px;
+  transition: var(--transition);
+}
+
+.med-detail-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.25rem;
+  color: var(--green-dark);
+  margin-bottom: 8px;
+}
+
+.dark .med-detail-name { color: var(--green-light); }
+
+.med-image-wrap {
+  width: 100%;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin: 12px 0 14px;
+  background: var(--green-pale);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+  position: relative;
+}
+
+.dark .med-image-wrap { background: #223322; }
+
+.med-image-wrap img {
+  width: 100%;
+  height: 220px;
+  object-fit: contain;
+  display: block;
+  transition: opacity 0.3s ease;
+  padding: 12px;
+  background: transparent;
+}
+
+.med-image-wrap .med-img-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  text-align: center;
+  width: 100%;
+}
+
+.med-section { margin-bottom: 2px; }
+
+.med-section-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--green-dark);
+  margin-bottom: 6px;
+}
+
+.dark .med-section-label { color: #81c784; }
+
+.med-section-label::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 16px;
+  border-radius: 4px;
+  background: var(--green-light);
+  flex-shrink: 0;
+}
+
+.med-section-label.warning-label::before { background: #e65100; }
+
+.med-section-text {
+  font-size: 0.87rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  padding-left: 12px;
+  border-left: 1px solid var(--border);
+  margin-left: 2px;
+}
+
+.med-section.warning-section .med-section-text {
+  background: #fff3e0;
+  border-left: 2px solid #e65100;
+  border-radius: 0 6px 6px 0;
+  padding: 8px 10px 8px 10px;
+  color: #6d3b00;
+}
+
+.dark .med-section.warning-section .med-section-text {
+  background: #2a1a00;
+  color: #ffcc80;
+}
+
+.faq-q {
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.faq-a {
+  font-size: 0.87rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+.tip-number {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2.2rem;
+  color: var(--green-dark);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.dark .tip-number { color: #ebeceb; }
+
+.map-container {
+  width: 100%;
+  height: 240px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-top: 14px;
+  border: 1px solid var(--border);
+}
+
+.map-container iframe { width: 100%; height: 100%; border: 0; }
+
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.contact-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+.contact-value { font-size: 0.92rem; font-weight: 500; color: var(--text); }
+
+.hero-band {
+  background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+  border-radius: var(--radius);
+  padding: 30px 28px;
+  color: #fff;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-band::after {
+  content: '+';
+  position: absolute;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 6rem;
+  opacity: 0.07;
+  font-family: sans-serif;
+}
+
+.hero-band h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.7rem;
+  margin-bottom: 8px;
+}
+
+.hero-band p {
+  font-size: 0.92rem;
+  opacity: 0.8;
+  max-width: 480px;
+  line-height: 1.6;
+}
+
+footer {
+  background: var(--footer-bg);
+  color: rgba(255,255,255,0.8);
+  text-align: center;
+  padding: 20px;
+  font-size: 0.82rem;
+  margin-top: 40px;
+  transition: background var(--transition);
+}
+
+.dark footer { background: #0d1f0d; }
+footer span { color: #a5d6a7; font-weight: 600; }
+
+@media (max-width: 640px) {
+  .section { padding: 24px 16px; }
+  .dark-btn { width: 46px; height: 26px; }
+  .dark-btn .knob { width: 20px; height: 20px; font-size: 11px; }
+  .dark .dark-btn .knob { transform: translateX(20px); }
+  nav button { padding: 8px 12px; font-size: 0.8rem; }
+  .med-image-wrap img { height: 170px; }
+}
+
+</style>
+</head>
+<body>
+
+<header>
+  <h1 style="display:none;">MediCure Infirmary System</h1>
+  <img src="MediCure.png" alt="" class="logo">
+  <div class="header-inner">
+    <div></div>
+    <button class="dark-btn" onclick="toggleDarkMode()" title="Toggle dark mode">
+      <span class="knob" id="knobIcon">☀️</span>
+    </button>
+  </div>
+</header>
+
+<nav>
+  <button onclick="openSection('home')" class="nav-active" id="nav-home">Home</button>
+  <button onclick="openSection('about')" id="nav-about">About</button>
+  <button onclick="openSection('medicine')" id="nav-medicine">Medicine</button>
+  <button onclick="openSection('tips')" id="nav-tips">Health Tips</button>
+  <button onclick="openSection('faq')" id="nav-faq">FAQ</button>
+  <button onclick="openSection('contact')" id="nav-contact">Contact</button>
+</nav>
+
+<div class="section active" id="home">
+  <div class="hero-band">
+    <h2>Welcome to MediCure!</h2>
+    <p>Your campus health trusted infirmary at PSAU. Access medicine guides, clinic hours, health tips, and emergency information — all in one place.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3>Clinic Services</h3>
+      <div class="badge">Clinic Info</div>
+      <p>The PSAU Infirmary provides on-campus medical consultations, first aid, and health documentation for students, faculty, and staff.</p>
+      <hr class="divider">
+      <div class="hours-row"><span class="day">Mon – Thu</span><span class="hours-open">7:00 AM – 6:00 PM</span></div>
+      <div class="hours-row"><span class="day">Fri – Sun</span><span class="hours-closed">Closed</span></div>
+    </div>
+    <div class="card">
+      <h3>Quick Health Tips</h3>
+      <div class="badge">Daily Tips</div>
+      <ul>
+        <li>Eat balanced whole foods — more vegetables, fruits, and lean proteins.</li>
+        <li>Drink at least 8 glasses of water every day.</li>
+        <li>Get 7–8 hours of sleep each night.</li>
+        <li>Wash hands frequently to prevent infection.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="about">
+  <div class="section-title">About the Clinic</div>
+  <div class="section-sub">Everything you need to know about the PSAU Infirmary.</div>
+  <div class="grid">
+    <div class="card">
+      <h3>Who We Are</h3>
+      <div class="badge">Overview</div>
+      <p>The MediCure Clinic is the official infirmary of Pampanga State Agricultural University (PSAU), located in Magalang, Pampanga. We are dedicated to providing immediate and accessible healthcare to the entire PSAU Community.</p>
+    </div>
+    <div class="card">
+      <h3>What We Offer</h3>
+      <div class="badge">Services</div>
+      <ul>
+        <li><strong>Basic Medical Care</strong> — On-campus consultations and first aid for the university community.</li>
+        <li><strong>Health Documentation</strong> — Medical certificates, health records, and referrals managed by our staff.</li>
+        <li><strong>Community Initiatives</strong> — Blood donation drives and campus health promotion programs.</li>
+        <li><strong>Emergency Response</strong> — Immediate care for on-campus emergencies and accidents.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Clinic Hours & Location</h3>
+      <div class="badge">Schedule</div>
+      <p>PSAU Infirmary, located inside Pampanga State Agricultural University, Magalang, Pampanga.</p>
+      <div class="hours-row"><span class="day">Monday</span><span class="hours-open">7:00 AM – 6:00 PM</span></div>
+      <div class="hours-row"><span class="day">Tuesday</span><span class="hours-open">7:00 AM – 6:00 PM</span></div>
+      <div class="hours-row"><span class="day">Wednesday</span><span class="hours-open">7:00 AM – 6:00 PM</span></div>
+      <div class="hours-row"><span class="day">Thursday</span><span class="hours-open">7:00 AM – 6:00 PM</span></div>
+      <div class="hours-row"><span class="day">Friday</span><span class="hours-closed">Closed</span></div>
+      <div class="hours-row"><span class="day">Saturday</span><span class="hours-closed">Closed</span></div>
+      <div class="hours-row"><span class="day">Sunday</span><span class="hours-closed">Closed</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="medicine">
+  <div class="section-title">Medicine Guide</div>
+  <div class="section-sub">Search and learn about medicines available at the clinic.</div>
+  <div class="search-box">
+    <input type="text" placeholder="Search medicine by name..." onkeyup="searchMedicine(this.value)">
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <h3>Available Medicines</h3>
+      <div class="medicine-list" id="medicineList"></div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔬</div>
+      <h3>Medicine Details</h3>
+      <div id="medicineDetails">
+        <p style="color:var(--text-muted); font-size:0.9rem;">👈 Select a medicine from the list to view its details and usage instructions.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="tips">
+  <div class="section-title">Health Tips</div>
+  <div class="section-sub">Simple habits that make a big difference to your wellbeing for PSAU Community.</div>
+  <div class="grid">
+    <div class="card">
+      <div class="tip-number">01</div>
+      <h3>Stay Hydrated</h3>
+      <p>Drink at least 8 glasses (2 liters) of water daily. Proper hydration supports kidney function, improves energy, and keeps your skin healthy. Carry a reusable water bottle with you on campus.</p>
+    </div>
+    <div class="card">
+      <div class="tip-number">02</div>
+      <h3>Take Medicines Correctly</h3>
+      <p>Always follow the prescribed dosage and timing. Never skip doses of antibiotics even if you feel better. Store medicines in a cool, dry place away from direct sunlight.</p>
+    </div>
+    <div class="card">
+      <div class="tip-number">03</div>
+      <h3>Exercise Regularly</h3>
+      <p>Aim for at least 30 minutes of moderate physical activity most days. Walking, jogging, or stretching between classes all count. Regular exercise reduces stress and boosts immunity.</p>
+    </div>
+    <div class="card">
+      <div class="tip-number">04</div>
+      <h3>Get Proper Sleep</h3>
+      <p>Students need 7–9 hours of sleep per night. Poor sleep weakens your immune system and impairs concentration. Maintain a consistent sleep schedule, even on weekends.</p>
+    </div>
+    <div class="card">
+      <div class="tip-number">05</div>
+      <h3>Eat Balanced Meals</h3>
+      <p>Fill half your plate with vegetables and fruits, a quarter with lean protein, and a quarter with whole grains. Limit ultra-processed foods, sugary drinks, and excessive salt.</p>
+    </div>
+    <div class="card">
+      <div class="tip-number">06</div>
+      <h3>Practice Good Hygiene</h3>
+      <p>Wash hands with soap for at least 20 seconds before eating and after using the restroom. Cover your mouth when coughing or sneezing to prevent spreading illness on campus.</p>
+    </div>
+    <div class="card">
+      <h3>When To Seek Help?</h3>
+      <div class="badge">Emergency</div>
+      <ul>
+        <li>Chest pain, difficulty breathing, or fainting.</li>
+        <li>High fever (38.5°C / 101.3°F or above).</li>
+        <li>Severe allergic reaction or swelling.</li>
+        <li>Deep wounds that won't stop bleeding.</li>
+      </ul>
+      <hr class="divider">
+      <p style="font-size:0.82rem;">Emergency: <strong>0965-876-8974<br>If you feel any of these symptoms seek help immediately.</strong></p>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="faq">
+  <div class="section-title">Frequently Asked Questions</div>
+  <div class="section-sub">Common questions about the clinic and your health.</div>
+  <div class="grid">
+    <div class="card">
+      <h3>What Should I Do In An Emergency?</h3>
+      <div class="badge">Quick Help</div>
+      <div class="faq-q">Q: I feel very ill or injured on campus. What do I do?</div>
+      <p class="faq-a">Go directly to the PSAU Infirmary or call <strong>0912-345-6789</strong>. For life threatening emergencies, call the national emergency line (911). Inform your teacher or a nearby staff member immediately.</p>
+      <hr class="divider">
+      <div class="faq-q">Q: Does the clinic handle dental emergencies?</div>
+      <p class="faq-a">The clinic handles basic first aid for dental pain, but also do dental care, if it really needed an emergency students are referred to an external dentist.</p>
+    </div>
+    <div class="card">
+      <h3>Proper Use of Medicine</h3>
+      <div class="badge">Medicine Use</div>
+      <div class="faq-q">Q: Can I get medicines from the clinic for free?</div>
+      <p class="faq-a">Yes, the infirmary provides basic medicines to enrolled PSAU students and staff at no charge, subject to availability.</p>
+      <hr class="divider">
+      <div class="faq-q">Q: Can I take leftover antibiotics for a new illness?</div>
+      <p class="faq-a">No. Always consult a doctor before taking antibiotics. Using the wrong antibiotic or not finishing a full course can make bacteria resistant to treatment.</p>
+    </div>
+    <div class="card">
+      <h3>Medicine Warnings</h3>
+      <div class="badge">Warnings</div>
+      <div class="faq-q">Q: What are common medicine side effects to watch for?</div>
+      <p class="faq-a">Watch for rashes, difficulty breathing, severe stomach pain, or unusual swelling. These may indicate an allergic reaction — stop the medicine and seek help immediately.</p>
+      <hr class="divider">
+      <div class="faq-q">Q: Is it safe to mix over-the-counter medicines?</div>
+      <p class="faq-a">Not always. Some combinations (e.g., Ibuprofen + Mefenamic Acid) can increase the risk of stomach bleeding. Always consult the clinic before combining medicines.</p>
+    </div>
+    <div class="card">
+      <h3>When To Seek Medical Help?</h3>
+      <div class="badge">Seek Help</div>
+      <div class="faq-q">Q: My fever has lasted 3 days. Should I see a doctor?</div>
+      <p class="faq-a">Yes. A fever lasting more than 3 days, or one that is 38.5°C or higher, warrants a medical consultation. It could be a sign of infection requiring proper treatment.</p>
+      <hr class="divider">
+      <div class="faq-q">Q: I've had diarrhea for more than a day. What should I do?</div>
+      <p class="faq-a">Visit the clinic if diarrhea lasts more than 24 hours, is accompanied by blood, or if you feel very weak. Stay hydrated with water or oral rehydration salts (ORS) in the meantime.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="contact">
+  <div class="section-title">Contact Information</div>
+  <div class="section-sub">Reach us or go to our location inside the campus.</div>
+  <div class="grid">
+    <div class="card">
+      <h3>Location Map</h3>
+      <div class="map-container">
+        <iframe src="https://www.google.com/maps?q=PSAU+Infirmary+Magalang+Pampanga&output=embed" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Contact To Connect With Us</h3>
+      <div class="contact-item">
+        <div>
+          <div class="contact-label">Mobile / Emergency</div>
+          <div class="contact-value">0965-876-8974</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div>
+          <div class="contact-label">Email</div>
+          <a href="https://mail.google.com/mail/u/0/#inbox?compose=GTvVlcSDZBSncKhWZxsLNzJjVhxBFvsHShvSrjmpRTZkKmQtBfbMRwmjVvcnRbbrtXXVmfdSsnqrL" target="_blank">medicureinfirmary@gmail.com</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div>
+          <div class="contact-label">University</div>
+          <div class="contact-value">Pampanga State Agricultural University</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Office Hours</h3>
+      <div class="hours-row"><span class="day">Monday</span><span class="hours-open">7:00 AM – 6:00 PM</span></div>
+      <div class="hours-row"><span class="day">Tuesday</span><span class="hours-open">7:00 AM – 6:00 PM</span></div>
+      <div class="hours-row"><span class="day">Wednesday</span><span class="hours-open">7:00 AM – 6:00 PM</span></div>
+      <div class="hours-row"><span class="day">Thursday</span><span class="hours-open">7:00 AM – 6:00 PM</span></div>
+      <div class="hours-row"><span class="day">Friday</span><span class="hours-closed">Closed</span></div>
+      <div class="hours-row"><span class="day">Sat & Sun</span><span class="hours-closed">Closed</span></div>
+      <hr class="divider">
+      <p style="font-size:0.82rem; color:var(--text-muted);">Walk-ins welcome during open hours. No appointment needed for basic consultations.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  © 2026 <span>MediCure</span> Infirmary System &nbsp;·&nbsp; PSAU Infirmary, Magalang, Pampanga
+</footer>
+
+<script>
+const medicineData = {
+  "Ambroxol": {
+    use: "Used for cough with mucus. Helps loosen and clear mucus from the airways, making it easier to cough out.",
+    whenToTake: "Take 1 tablet or 10 mL syrup 2–3 times a day, preferably after meals. For children, follow the dose on the label or as directed by the doctor.",
+    warnings: "Take with food. Not recommended for children under 2 without a doctor's advice. Do not crush or chew extended-release tablets.",
+    reminders: "Drink plenty of water throughout the day to help thin mucus. Store in a cool, dry place. Do not exceed the recommended dose.",
+    whenToVisit: "Visit the clinic if cough persists for more than 1 week, if you develop a high fever, if you experience chest pain or difficulty breathing, or if phlegm turns yellow or green.",
+    category: "Respiratory",
+    image: "images/Ambroxol1.png",
+    imageAlt: "Ambroxol syrup bottle"
+  },
+  "Amoxicillin": {
+    use: "Antibiotic used to treat bacterial infections of the ear, nose, throat, skin, and urinary tract. Works by killing bacteria that cause infection.",
+    whenToTake: "Take 1 capsule (500 mg) every 8 hours (3x a day) or as prescribed by the doctor. Take at the same time each day, with or without food.",
+    warnings: "Always complete the full course even if you feel better. Never take antibiotics for viral infections like colds or flu. Do not share antibiotics with others.",
+    reminders: "Never stop the course early — incomplete treatment can cause antibiotic resistance. Store in a cool, dry place away from sunlight. Inform the clinic of any allergies before taking.",
+    whenToVisit: "Visit the clinic if symptoms do not improve after 3 days, if you develop a rash, facial swelling, or difficulty breathing, or if you feel worse while taking the medicine.",
+    category: "Antibiotic",
+    image: "images/Amoxicillin1.png",
+    imageAlt: "Amoxicillin capsules"
+  },
+  "Antihistamine": {
+    use: "Used to treat and prevent allergic reactions including skin rashes, hives, itching, runny nose, and watery eyes caused by allergens.",
+    whenToTake: "Take 1 tablet once or twice daily, as directed. Can be taken with or without food. For nighttime allergies, take before bed as it may cause drowsiness.",
+    warnings: "Causes drowsiness in most patients. Avoid alcohol while taking this medicine. Do not drive or operate machinery after taking.",
+    reminders: "Keep away from children's reach. Do not double-dose if you miss one — just take the next scheduled dose. Do not take more than the recommended daily amount.",
+    whenToVisit: "Go to the clinic if the allergic reaction worsens, if you experience swelling of the face, throat, or tongue, or if hives spread rapidly and are accompanied by difficulty breathing.",
+    category: "Allergy",
+    image: "images/Antihistamine1.png",
+    imageAlt: "Antihistamine tablets"
+  },
+  "Band Aid": {
+    use: "Used to cover and protect small cuts, scrapes, blisters, and minor wounds from dirt, bacteria, and further irritation while healing.",
+    whenToTake: "Apply immediately after cleaning the wound. Clean the skin around it, dry thoroughly, then press the band aid firmly in place over the wound.",
+    warnings: "Never apply on deep or heavily bleeding wounds — press a clean cloth and go to the clinic instead. Check for latex allergy before applying.",
+    reminders: "Change the band aid daily or whenever it gets wet or dirty. Always clean and disinfect the wound with Betadine or clean water before applying.",
+    whenToVisit: "Visit the clinic if the wound is deep, will not stop bleeding after 10 minutes of pressure, shows signs of infection (redness, pus, swelling, warmth), or if you have not had a tetanus shot recently.",
+    category: "First Aid",
+    image: "images/Band Aid1.png",
+    imageAlt: "Adhesive bandages"
+  },
+  "Betadine": {
+    use: "Antiseptic solution used to clean and disinfect wounds, cuts, scrapes, and burns to prevent bacterial infection.",
+    whenToTake: "Apply a small amount directly onto the wound using a cotton ball or swab. Allow it to dry before covering with a bandage. Use 1–2 times a day unless instructed otherwise.",
+    warnings: "For external use only — never swallow. Avoid getting it in the eyes. Do not use inside deep or puncture wounds. May stain skin and clothing.",
+    reminders: "Some people may be allergic to iodine — stop use and seek help if skin becomes very red or swollen. Keep away from children. Store at room temperature.",
+    whenToVisit: "Visit the clinic if the wound is deep, shows signs of infection (increasing redness, warmth, pus, swelling), or if you develop a skin reaction after applying Betadine.",
+    category: "First Aid",
+    image: "images/Betadine1.png",
+    imageAlt: "Betadine antiseptic bottle"
+  },
+  "Biogesic": {
+    use: "Used for relief of mild to moderate pain such as headache, toothache, body pain, and muscle aches. Also effective for reducing fever. Contains Paracetamol 500 mg.",
+    whenToTake: "Take 1–2 tablets every 4–6 hours as needed. Can be taken with or without food. Space doses at least 4 hours apart.",
+    warnings: "Do not exceed 8 tablets (4,000 mg) in 24 hours. Do not take with other medicines that also contain paracetamol. Avoid alcohol while taking this medicine.",
+    reminders: "Do not use for more than 3 days for fever or 5 days for pain without consulting a doctor. Safe for most people when taken at the correct dose. Keep track of total daily intake if using multiple products.",
+    whenToVisit: "Visit the clinic if fever does not go down after 3 days, if pain persists or worsens, or if you accidentally take too many tablets. Signs of overdose include nausea, vomiting, and stomach pain.",
+    category: "Pain / Fever",
+    image: "images/Biogesic1.png",
+    imageAlt: "Paracetamol tablets (Biogesic)"
+  },
+  "Cetirizine": {
+    use: "An antihistamine used to relieve allergy symptoms such as runny nose, sneezing, itchy or watery eyes, and skin rashes caused by hay fever or other allergens.",
+    whenToTake: "Take 1 tablet (10 mg) once daily, preferably in the evening as it may cause mild drowsiness. Can be taken with or without food.",
+    warnings: "May cause drowsiness. Avoid alcohol — it can increase drowsiness. Do not take more than one tablet per day.",
+    reminders: "Do not drive or operate machinery until you know how this medicine affects you. For children, follow the doctor's advice on dosing. Store in a cool, dry place.",
+    whenToVisit: "Visit the clinic if allergy symptoms do not improve after 3 days, if you develop difficulty breathing or facial swelling, or if you experience severe drowsiness or unusual side effects.",
+    category: "Allergy",
+    image: "images/Cetirizine1.png",
+    imageAlt: "Cetirizine 10mg tablets"
+  },
+  "Efficascent Oil": {
+    use: "A topical medicated oil used for the relief of muscle pain, body aches, joint pain, arthritis, minor sprains, and insect bites. Creates a warming sensation that helps relax tense muscles.",
+    whenToTake: "Apply a small amount to the affected area and gently massage in circular motions 2–3 times daily or as needed. Best used after a shower when pores are open.",
+    warnings: "For external use only. Do not apply on open wounds, broken skin, or irritated areas. Avoid contact with eyes, mouth, or nose.",
+    reminders: "Wash hands thoroughly after applying. Keep away from children. Do not wrap the area tightly with bandage after applying as it may cause skin irritation.",
+    whenToVisit: "Visit the clinic if pain persists for more than 1 week, if the area becomes more swollen or inflamed, if you develop a rash or severe burning sensation after applying, or if you suspect a serious sprain or fracture.",
+    category: "Pain Relief",
+    image: "images/Efficascent Oil1.png",
+    imageAlt: "Topical pain relief oil"
+  },
+  "Ibuprofen Medicol": {
+    use: "A non-steroidal anti-inflammatory drug (NSAID) used to relieve headache, toothache, body pain, muscle pain, and to reduce fever and inflammation.",
+    whenToTake: "Take 1 tablet (200–400 mg) every 6–8 hours as needed. Always take with food or a full glass of water to protect the stomach.",
+    warnings: "Never take together with Mefenamic Acid — this increases risk of serious stomach bleeding. Avoid on an empty stomach. Not recommended for people with stomach ulcers, kidney problems, or heart disease. Do not take during pregnancy without a doctor's approval.",
+    reminders: "Do not exceed 1,200 mg per day without a doctor's advice. If stomach pain occurs, stop and visit the clinic. Not for long-term use without medical supervision.",
+    whenToVisit: "Visit the clinic if stomach pain, black stools, or vomiting blood occur (signs of stomach bleeding), if symptoms do not improve after 3–5 days, or if you experience swelling of hands or feet.",
+    category: "Pain Relief / Anti-inflammatory",
+    image: "images/Ibuprofen Medicol1.png",
+    imageAlt: "Ibuprofen tablets"
+  },
+  "Loperamide": {
+    use: "Used to control and relieve acute and chronic diarrhea by slowing down movement in the gut, allowing more water and nutrients to be absorbed from the intestines.",
+    whenToTake: "Take 2 capsules (4 mg) at the first sign of diarrhea, then 1 capsule (2 mg) after each loose stool. Take with a full glass of water.",
+    warnings: "Do not use if diarrhea contains blood or black stools — go to the clinic immediately. Not for use in children under 12 without a doctor's advice. Do not exceed 8 mg (4 capsules) per day.",
+    reminders: "Stay well hydrated — drink oral rehydration salts (ORS) or water throughout the day. Stop taking once diarrhea is controlled. Do not use for more than 2 days without consulting the clinic.",
+    whenToVisit: "Visit the clinic immediately if diarrhea lasts more than 2 days, if you see blood or mucus in your stool, if you have a high fever along with diarrhea, or if you feel extremely weak or dizzy from fluid loss.",
+    category: "Digestive",
+    image: "images/Loperamide1.png",
+    imageAlt: "Loperamide capsules"
+  },
+  "Losartan Potassium": {
+    use: "Used to treat high blood pressure (hypertension) and to protect the kidneys in patients with type 2 diabetes. Works by relaxing blood vessels so the heart does not have to work as hard.",
+    whenToTake: "Take 1 tablet (50 mg) once daily, at the same time each day, with or without food. Do not skip doses.",
+    warnings: "Requires a doctor's prescription. Never stop taking without your doctor's approval — stopping suddenly can cause a dangerous spike in blood pressure. Inform the clinic of all other medicines you take as some may interact with Losartan.",
+    reminders: "Check your blood pressure regularly. Avoid high-sodium (salty) foods. Your doctor may adjust the dose depending on your blood pressure levels. Keep all follow-up appointments.",
+    whenToVisit: "Visit the clinic if you experience dizziness, lightheadedness, swelling of feet or ankles, decreased urination, or if your blood pressure readings remain high despite taking the medicine.",
+    category: "Cardiovascular",
+    image: "images/Losartan Potassium1.png",
+    imageAlt: "Losartan potassium tablets"
+  },
+  "Medical Tape": {
+    use: "Used to secure and hold bandages, gauze pads, and dressings firmly in place over wounds during the healing process.",
+    whenToTake: "Apply after cleaning and dressing the wound. Cut a strip to the needed length and press firmly over the edge of the bandage or gauze to secure it to the skin.",
+    warnings: "Some people are sensitive to adhesive. Use hypoallergenic tape if skin irritation occurs. Avoid applying too tightly — it should hold the dressing but not restrict blood flow.",
+    reminders: "Remove gently by pulling in the direction of hair growth to minimize skin irritation. Replace the dressing and tape daily or whenever it gets wet. Do not reuse strips of tape.",
+    whenToVisit: "Visit the clinic if the wound shows signs of infection (redness, swelling, pus, bad smell, increasing pain) or if the skin under the tape becomes very red, blistered, or sore.",
+    category: "First Aid",
+    image: "images/Medical Tape1.png",
+    imageAlt: "Medical adhesive tape roll"
+  },
+  "Mefenamic Acid": {
+    use: "An NSAID used for short-term relief of mild to moderate pain, including menstrual cramps (dysmenorrhea), headache, toothache, and muscle pain.",
+    whenToTake: "Take 1 capsule (500 mg) 3 times a day (every 8 hours), always with food or milk. Use only for short periods — no more than 7 days.",
+    warnings: "Always take with food — never on an empty stomach as it can cause severe stomach pain or ulcers. Do not combine with Ibuprofen. Avoid alcohol. Not recommended for people with kidney problems or history of stomach ulcers.",
+    reminders: "Stop taking once pain is relieved. Do not use for more than 7 days without a doctor's advice. Not for long-term use. Keep out of reach of children.",
+    whenToVisit: "Visit the clinic if stomach pain is severe, if pain persists beyond 7 days, if you notice dark or black stools (signs of internal bleeding), or if you develop a skin rash after taking the medicine.",
+    category: "Pain Relief",
+    image: "images/Mefenamic Acid1.png",
+    imageAlt: "Mefenamic acid capsules"
+  },
+  "Neozep": {
+    use: "Used to relieve multiple cold and flu symptoms at once — including stuffy and runny nose, sneezing, headache, body aches, and mild fever. Contains a combination of antihistamine, decongestant, and pain reliever.",
+    whenToTake: "Take 1 tablet every 6 hours (4 times a day) as needed. Take with food or water. Do not exceed 4 tablets in 24 hours.",
+    warnings: "May cause drowsiness — avoid driving or operating machinery. Do not drink alcohol. Do not take with other cold medicines containing similar ingredients to avoid double-dosing. Keep out of children's reach.",
+    reminders: "Take only when symptoms are present. Do not use for more than 7 days without consulting the clinic. Get adequate rest and fluids while taking this medicine.",
+    whenToVisit: "Visit the clinic if cold symptoms last more than 7 days, if fever rises above 38.5°C or lasts more than 3 days, if you develop chest pain, severe headache, difficulty breathing, or if symptoms suddenly worsen.",
+    category: "Cold & Flu",
+    image: "images/Neozep1.png",
+    imageAlt: "Cold and flu relief tablets"
+  }
+};
+
+function loadMedicines(filter = "") {
+  let container = document.getElementById("medicineList");
+  container.innerHTML = "";
+  const entries = Object.entries(medicineData).filter(([name]) =>
+    name.toLowerCase().includes(filter.toLowerCase())
+  );
+  if (entries.length === 0) {
+    container.innerHTML = `<p style="font-size:0.85rem;color:var(--text-muted);padding:10px 0;">No medicines found.</p>`;
+    return;
+  }
+  entries.forEach(([name]) => {
+    const btn = document.createElement("button");
+    btn.textContent = name;
+    btn.onclick = () => showMedicine(name, btn);
+    container.appendChild(btn);
+  });
+}
+
+function detailSection(label, text, isWarning) {
+  const cls = isWarning ? ' warning-section' : '';
+  const lblCls = isWarning ? ' warning-label' : '';
+  return `
+    <div class="med-section${cls}">
+      <div class="med-section-label${lblCls}">${label}</div>
+      <p class="med-section-text">${text}</p>
+    </div>`;
+}
+
+function showMedicine(name, btn) {
+  document.querySelectorAll(".medicine-list button").forEach(b => b.classList.remove("selected"));
+  if (btn) btn.classList.add("selected");
+  const m = medicineData[name];
+
+  const imgHTML = m.image
+    ? `<div class="med-image-wrap">
+        <img src="${m.image}" alt="${m.imageAlt}"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="med-img-fallback" style="display:none;">
+          <div>Image not available</div>
+        </div>
+      </div>`
+    : `<div class="med-image-wrap">
+        <div class="med-img-fallback"><div>No image available</div></div>
+      </div>`;
+
+  document.getElementById("medicineDetails").innerHTML = `
+    <div class="med-detail-name">${name}</div>
+    <span class="badge">${m.category}</span>
+    ${imgHTML}
+    <hr class="divider">
+    ${detailSection("What it's used for:", m.use, false)}
+    <hr class="divider">
+    ${detailSection("When to Take", m.whenToTake, false)}
+    <hr class="divider">
+    ${detailSection("⚠️ Important warnings:", m.warnings, true)}
+    <hr class="divider">
+    ${detailSection("Reminders", m.reminders, false)}
+    <hr class="divider">
+    ${detailSection("When to Visit the Clinic", m.whenToVisit, false)}
+  `;
+}
+
+function searchMedicine(value) { loadMedicines(value); }
+
+function openSection(id) {
+  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  document.querySelectorAll("nav button").forEach(b => b.classList.remove("nav-active"));
+  document.getElementById("nav-" + id).classList.add("nav-active");
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleDarkMode() {
+  document.body.classList.toggle("dark");
+  const isDark = document.body.classList.contains("dark");
+  document.getElementById("knobIcon").textContent = isDark ? "🌙" : "☀️";
+}
+
+loadMedicines();
+</script>
+</body>
+</html>
